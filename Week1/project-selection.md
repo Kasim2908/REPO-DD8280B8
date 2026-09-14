@@ -12,11 +12,21 @@
 
 ## Selected Projects
 
-### Project 1 — CI/CD Pipeline
+I have selected the following two projects from the DevOps Project Bank for this internship:
 
+1. **CI/CD Pipeline** — Project 3 from the Project Bank
+2. **Kubernetes Deployment** — Project 5 from the Project Bank
+
+These projects will provide practical experience in automation, continuous integration and delivery, containerization, and Kubernetes orchestration.
+
+---
+
+# Project 1 — CI/CD Pipeline
+
+**Original Project Bank:** Project 3  
 **Difficulty:** Intermediate
 
-#### Technologies
+## Technologies
 
 - Git
 - GitHub
@@ -25,23 +35,31 @@
 - Automated Testing
 - CI/CD
 
-#### Objective
+## Objective
 
-Build a complete CI/CD pipeline that automatically performs testing,
-building, and deployment when changes are pushed to the GitHub repository.
+Build a complete CI/CD pipeline that automatically performs testing, building, and deployment when changes are pushed to the GitHub repository.
 
-#### Expected Outcome
+## Key Areas
 
-A multi-stage CI/CD pipeline with automated testing, build stages,
-and deployment triggers.
+- Source code integration
+- Automated testing
+- Build stages
+- Deployment triggers
+- GitHub Actions workflows
+- Docker-based application workflow
+
+## Expected Outcome
+
+A multi-stage CI/CD pipeline with automated testing, build stages, and deployment triggers.
 
 ---
 
-### Project 2 — Kubernetes Deployment
+# Project 2 — Kubernetes Deployment
 
+**Original Project Bank:** Project 5  
 **Difficulty:** Intermediate to Advanced
 
-#### Technologies
+## Technologies
 
 - Docker
 - Kubernetes
@@ -53,55 +71,93 @@ and deployment triggers.
 - Secrets
 - Ingress
 
-#### Objective
+## Objective
 
-Deploy a containerized application to Kubernetes and configure the
-necessary Kubernetes resources for reliable application access and scaling.
+Deploy a containerized application to Kubernetes and configure the necessary Kubernetes resources for reliable application access and scaling.
 
-#### Expected Outcome
+## Key Areas
 
-A Kubernetes-deployed application with appropriate resources,
-configuration, networking, and scaling.
+- Kubernetes Pods and Deployments
+- Kubernetes Services
+- Configuration management
+- Secrets management
+- Ingress
+- Application access
+- Scaling
 
----
+## Expected Outcome
 
-## Why These Projects Were Selected
-
-These projects provide practical experience with modern DevOps
-workflows, including CI/CD, containerization, automation, and
-Kubernetes orchestration.
-
-The projects will also help develop practical troubleshooting,
-documentation, automation, and deployment skills.
+A Kubernetes-deployed application with appropriate resources, configuration, networking, and scaling.
 
 ---
 
-## Learning Goals
+# Why These Projects Were Selected
+
+I selected these projects because they provide practical exposure to important DevOps workflows.
+
+The CI/CD project will help me understand how code changes can be automatically tested, built, and prepared for deployment.
+
+The Kubernetes project will help me understand how containerized applications are deployed, exposed, configured, and scaled using Kubernetes.
+
+Together, these projects provide hands-on experience with:
+
+- Automation
+- CI/CD
+- Containerization
+- Kubernetes orchestration
+- Deployment workflows
+- Troubleshooting
+- Documentation
+
+---
+
+# Learning Goals
 
 By completing these projects, I aim to understand:
 
 1. How CI/CD pipelines work.
 2. How GitHub Actions automates software workflows.
-3. How applications are containerized using Docker.
-4. How Docker images are used in deployments.
-5. How Kubernetes manages containers.
-6. How Deployments and Pods work.
-7. How Services expose applications.
-8. How ConfigMaps and Secrets manage configuration.
-9. How Ingress provides application access.
-10. How Kubernetes scaling works.
-11. How to troubleshoot DevOps infrastructure.
-12. How to document and reproduce DevOps workflows.
+3. How automated testing can be integrated into CI/CD.
+4. How build stages work in a CI/CD pipeline.
+5. How deployment triggers are configured.
+6. How Docker is used in application workflows.
+7. How Kubernetes manages containerized applications.
+8. How Pods and Deployments work.
+9. How Kubernetes Services expose applications.
+10. How ConfigMaps manage application configuration.
+11. How Secrets manage sensitive configuration.
+12. How Ingress provides application access.
+13. How Kubernetes scaling works.
+14. How to troubleshoot DevOps deployment issues.
+15. How to document and reproduce DevOps workflows.
 
 ---
 
-## Final Deliverables
+# Planned Project Workflow
 
-- Working CI/CD pipeline
-- Dockerized application
-- Kubernetes deployment
-- Kubernetes configuration files
-- Documentation
-- Troubleshooting notes
-- Runbooks
-- GitHub repository
+## CI/CD Pipeline
+
+```text
+Developer
+    ↓
+GitHub
+    ↓
+GitHub Actions
+    ↓
+Automated Testing
+    ↓
+Build
+    ↓
+Docker Image
+    ↓
+Kubernetes
+    ↓
+Deployment
+    ↓
+Pods
+    ↓
+Service
+    ↓
+Ingress
+    ↓
+Application
