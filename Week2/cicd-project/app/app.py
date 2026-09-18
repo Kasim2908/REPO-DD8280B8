@@ -6,7 +6,7 @@ def add(a, b):
 
 
 def get_message():
-    return "🚀 CI/CD Pipeline Successful — Application Deployed to AWS EC2!"
+    return "CI/CD Pipeline Successful — Application Deployed to AWS EC2!"
 
 HTML = """
 <!DOCTYPE html>
