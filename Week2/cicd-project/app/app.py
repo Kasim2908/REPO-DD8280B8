@@ -738,7 +738,7 @@ HTML = """
             <div class="success-text">
 
                 <h3>
-                    CI/CD pipeline is working!
+                    {{SUCCESS_MESSAGE}}
                 </h3>
 
                 <p>
@@ -802,8 +802,11 @@ class RequestHandler(BaseHTTPRequestHandler):
 
         self.end_headers()
 
+        # Render the dynamic success message before sending the page.
+        page = HTML.replace("{{SUCCESS_MESSAGE}}", get_message())
+
         self.wfile.write(
-            HTML.encode("utf-8")
+            page.encode("utf-8")
         )
 
 
