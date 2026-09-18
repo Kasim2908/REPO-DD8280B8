@@ -1,4 +1,5 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
+import datetime
 
 
 def add(a, b):
@@ -7,6 +8,7 @@ def add(a, b):
 
 def get_message():
     return "CI/CD Pipeline Successful — Application Deployed to AWS EC2!"
+
 
 HTML = """
 <!DOCTYPE html>
@@ -743,7 +745,7 @@ HTML = """
 
                 <p>
                     Application is running successfully
-                    on port 5000.
+                    on port 5000. Started {{START_TIME}}.
                 </p>
 
             </div>
@@ -783,6 +785,11 @@ HTML = """
 </html>
 """
 
+# Timestamp captured once, at process start. If the page you load in the
+# browser shows an old timestamp, you are NOT talking to the process you
+# just deployed -- an old process/container is still bound to the port.
+START_TIME = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
+
 
 class RequestHandler(BaseHTTPRequestHandler):
 
@@ -803,27 +810,30 @@ class RequestHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
         # Render the dynamic success message before sending the page.
-        page = HTML.replace("{{SUCCESS_MESSAGE}}", get_message())
+        page = HTML.replace(
+            "{{SUCCESS_MESSAGE}}", get_message()
+        ).replace(
+            "{{START_TIME}}", START_TIME
+        )
 
         self.wfile.write(
             page.encode("utf-8")
         )
 
-
     def log_message(self, format, *args):
-
         return
+.
+class ReusableHTTPServer(HTTPServer):
+    allow_reuse_address = True
 
 
 if __name__ == "__main__":
 
-    server = HTTPServer(
+    server = ReusableHTTPServer(
         ("0.0.0.0", 5000),
         RequestHandler
     )
 
-    print(
-        "CI/CD application running on port 5000"
-    )
+    print(f"CI/CD application running on port 5000 (started {START_TIME})")
 
     server.serve_forever()
