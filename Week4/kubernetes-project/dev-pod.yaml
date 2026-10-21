@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+
+metadata:
+  name: dev-nginx
+  namespace: dev
+
+spec:
+  containers:
+    - name: nginx
+      image: nginx:stable
+      ports:
+        - containerPort: 80
+
