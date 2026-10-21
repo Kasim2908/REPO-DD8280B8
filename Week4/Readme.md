@@ -1,261 +1,239 @@
-# Week 4: Kubernetes Deployment Project
+# Week 4: Kubernetes Hands-On Project
 
 ## Overview
 
-As part of my **6-Week DevOps Engineering Self-Learning Internship Program with InternCareerPath** I worked on deploying and managing applications using Kubernetes.
+This project demonstrates practical Kubernetes concepts through deploying and managing an Nginx application in a local Kubernetes cluster. It covers Deployments and Services along with health probes and troubleshooting. It also demonstrates ConfigMaps Secrets and Namespaces.
 
-During Week 4 I explored Kubernetes fundamentals and implemented practical exercises covering Deployments, Services, self-healing, health probes, ConfigMaps, Secrets, Namespaces and cluster troubleshooting.
-
-The goal was to understand how Kubernetes manages containerized applications and maintains their desired state.
+The project was completed as part of the DevOps Engineering Self-Learning Internship Program.
 
 ## Objectives
 
-- Understand Kubernetes architecture and core components.
-- Deploy and manage applications using Kubernetes Deployments.
-- Expose applications using Services.
-- Understand self-healing and replica management.
+- Understand Kubernetes architecture and core resources.
+- Deploy an Nginx application using a Deployment.
+- Expose the application through a NodePort Service.
+- Practice Pod lifecycle management and self-healing.
 - Configure liveness and readiness probes.
-- Manage application configuration using ConfigMaps and Secrets.
-- Organize workloads using Namespaces.
-- Troubleshoot Pods and investigate cluster events.
+- Manage application configuration using ConfigMaps.
+- Practice Kubernetes Secrets using dummy credentials.
+- Organize resources using Namespaces.
+- Troubleshoot common Kubernetes issues using `kubectl`.
 
 ## Technologies Used
 
-- **Kubernetes** — Container orchestration
-- **Docker** — Container runtime and image management
-- **kubectl** — Kubernetes command-line tool
-- **Nginx** — Sample application
-- **YAML** — Kubernetes resource configuration
-- **WSL Ubuntu** — Development environment
+- Kubernetes
+- Docker
+- kubectl
+- Nginx
+- YAML
+- Minikube
+- WSL Ubuntu
 
 ## Project Structure
 
 ```text
 Week4/
-├── README.md
+├── Readme.md
 ├── Day1.md
 ├── Day2.md
 ├── Day3.md
 ├── Day4.md
 ├── Day5.md
 ├── Day6.md
-└── Day7.md
-
-kubernetes-project/
-├── deployment.yaml
-├── service.yaml
-├── app-config.yaml
-├── configmap-pod.yaml
-├── secret-pod.yaml
-└── dev-pod.yaml
+├── Day7.md
+└── kubernetes-project/
+    ├── namespace.yaml
+    ├── deployment.yaml
+    ├── service.yaml
+    ├── app-config.yaml
+    ├── app-secret.yaml
+    ├── configmap-pod.yaml
+    ├── secret-pod.yaml
+    └── dev-pod.yaml
 ```
 
-*Note: Adjust the folder structure if your actual files are organized differently.*
+## Kubernetes Resources
 
-## Daily Progress
+| Resource | Name | Purpose |
+|---|---|---|
+| Namespace | `dev` | Isolates development resources |
+| Deployment | `nginx-deployment` | Manages three Nginx replicas |
+| Service | `nginx-service` | Exposes Nginx through NodePort 30080 |
+| ConfigMap | `app-config` | Stores non-sensitive application configuration |
+| Secret | `app-secret` | Demonstrates storing practice credentials |
+| Pod | `configmap-demo` | Reads configuration from the ConfigMap |
+| Pod | `secret-demo` | Reads values from the Secret |
+| Pod | `dev-nginx` | Runs Nginx in the `dev` Namespace |
 
-### Day 1 — Kubernetes Fundamentals
-- Learned Kubernetes architecture and its core components.
-- Studied Pods, Nodes, Clusters, Deployments and ReplicaSets.
-- Explored Services, ConfigMaps, Secrets and Namespaces.
-- Practiced basic `kubectl` commands and YAML manifests.
+## Prerequisites
 
-### Day 2 — Deployments and Services
-- Created an Nginx Deployment with three replicas.
-- Exposed the application using a NodePort Service.
-- Used port forwarding to access the application locally.
-- Verified that the application returned an HTTP 200 response.
+- Docker running correctly
+- Minikube installed
+- kubectl installed
+- A working local Kubernetes cluster
+- Git installed
 
-### Day 3 — Self-Healing and Troubleshooting
-- Deleted a Pod to observe Kubernetes self-healing.
-- Verified that the Deployment created a replacement Pod.
-- Investigated a deliberately invalid container image.
-- Identified `ErrImagePull` and `ImagePullBackOff` errors.
+Check your environment:
 
-### Day 4 — Health Probes
-- Configured liveness and readiness probes.
-- Used HTTP GET checks on port 80.
-- Inspected Deployment configuration and Pod status.
-- Verified that the application remained accessible.
-
-### Day 5 — ConfigMaps and Secrets
-- Created a ConfigMap to store application configuration.
-- Injected configuration values into a Pod as environment variables.
-- Created a Kubernetes Secret using dummy practice credentials.
-- Troubleshot a missing Secret reference and verified the corrected Pod.
-
-**Security note:** The credentials used in this exercise were for practice only. Never commit real passwords, tokens or other sensitive values to a public repository.
-
-### Day 6 — Namespaces
-- Created a `dev` Namespace.
-- Deployed an Nginx Pod inside the Namespace.
-- Inspected resources across Namespaces.
-- Practiced separating application resources using Kubernetes Namespaces.
-
-### Day 7 — Cluster Review and Troubleshooting
-- Reviewed Deployments and Pods across Namespaces.
-- Investigated Pod restarts and cluster events.
-- Observed sandbox recreation and temporary connectivity issues.
-- Inspected logs for the local-path storage provisioner.
-- Verified that the workloads returned to a healthy Running state.
-
-## Architecture
-
-```text
-Developer
-    |
-    v
-Kubernetes API
-    |
-    v
-Deployment
-    |
-    v
-ReplicaSet
-    |
-    +------ Pod 1 (Nginx)
-    |
-    +------ Pod 2 (Nginx)
-    |
-    +------ Pod 3 (Nginx)
-                |
-                v
-          Kubernetes Service
-                |
-                v
-          Application Access
+```bash
+docker --version
+kubectl version --client
+minikube status
+kubectl get nodes
 ```
 
 ## How to Run the Project
 
-### Prerequisites
+Run all commands from the root directory of the repository.
 
-Make sure you have:
-
-- Docker running
-- A working Kubernetes cluster
-- `kubectl` installed and configured
-- The project YAML files available locally
-
-Check cluster connectivity:
+### Step 1: Start Minikube
 
 ```bash
-kubectl cluster-info
+minikube start --driver=docker --memory=2048
+```
+
+Verify the cluster:
+
+```bash
 kubectl get nodes
+kubectl cluster-info
 ```
 
-### Step 1: Deploy the Application
+### Step 2: Create the Namespace
 
 ```bash
-kubectl apply -f deployment.yaml
+kubectl apply -f Week4/kubernetes-project/namespace.yaml
 ```
 
-Verify the Deployment:
+### Step 3: Deploy the Nginx Application
+
+```bash
+kubectl apply -f Week4/kubernetes-project/deployment.yaml
+kubectl apply -f Week4/kubernetes-project/service.yaml
+```
+
+### Step 4: Apply Configuration and Secret Resources
+
+```bash
+kubectl apply -f Week4/kubernetes-project/app-config.yaml
+kubectl apply -f Week4/kubernetes-project/app-secret.yaml
+```
+
+### Step 5: Create the Demo Pods
+
+```bash
+kubectl apply -f Week4/kubernetes-project/configmap-pod.yaml
+kubectl apply -f Week4/kubernetes-project/secret-pod.yaml
+kubectl apply -f Week4/kubernetes-project/dev-pod.yaml
+```
+
+### Step 6: Verify the Resources
 
 ```bash
 kubectl get deployments
-kubectl get pods
-```
-
-### Step 2: Create the Service
-
-```bash
-kubectl apply -f service.yaml
-```
-
-Check the Service:
-
-```bash
 kubectl get services
-kubectl get endpointslices
+kubectl get pods
+kubectl get pods -n dev
+kubectl get configmaps
+kubectl get secrets
 ```
 
-### Step 3: Access the Application
+The Nginx Deployment should eventually show three available replicas. The demo Pods should reach the `Running` state.
 
-Use port forwarding:
+### Step 7: Access the Nginx Application
+
+Start port forwarding:
 
 ```bash
 kubectl port-forward service/nginx-service 8080:80
 ```
 
-Open another terminal and run:
+Keep this terminal open. Open a second terminal and execute:
 
 ```bash
 curl -I http://localhost:8080
 ```
 
-Expected result:
+A successful request should return an HTTP response such as `HTTP/1.1 200 OK`.
 
-```text
-HTTP/1.1 200 OK
-```
+You can also open `http://localhost:8080` in your browser while port forwarding is active.
 
-### Step 4: Inspect Health Probes
+## Troubleshooting Commands
+
+Check Pod status:
 
 ```bash
+kubectl get pods -o wide
+kubectl get pods -n dev
+```
+
+Inspect a Pod:
+
+```bash
+kubectl describe pod configmap-demo
+kubectl describe pod secret-demo
+kubectl describe pod dev-nginx -n dev
+```
+
+Inspect application logs:
+
+```bash
+kubectl logs configmap-demo
+kubectl logs secret-demo
+```
+
+Inspect Deployment status:
+
+```bash
+kubectl rollout status deployment/nginx-deployment
 kubectl describe deployment nginx-deployment
-kubectl get pods
 ```
 
-### Step 5: Inspect Configuration Resources
+Inspect recent cluster events:
 
 ```bash
-kubectl get configmaps
-kubectl get secrets
-kubectl describe configmap app-config
-```
-
-Avoid printing Secret values in terminal logs or publishing them in screenshots.
-
-### Step 6: Inspect Namespaces and Events
-
-```bash
-kubectl get namespaces
-kubectl get pods -A
 kubectl get events --sort-by=.metadata.creationTimestamp
 ```
 
-### Step 7: Review Logs
+## Learning Outcomes
+
+By completing this project I practiced:
+
+- Deploying and scaling Nginx using Kubernetes Deployments.
+- Exposing an application through a Kubernetes Service.
+- Accessing a service using port forwarding.
+- Understanding Pod lifecycle management and self-healing.
+- Configuring liveness and readiness probes.
+- Injecting environment variables using ConfigMaps and Secrets.
+- Managing resources across Namespaces.
+- Diagnosing common Pod and cluster issues using `kubectl`.
+
+## Security Considerations
+
+The Secret in this project uses dummy practice credentials only.
+
+Kubernetes Secret values are Base64-encoded by default and are not automatically encrypted merely because they are stored in a Secret resource. Do not commit real credentials or tokens to a public repository. For production use consider encryption at rest and an appropriate secrets management solution.
+
+## Cleanup
+
+**Warning:** These commands delete the resources created for this exercise.
 
 ```bash
-kubectl logs deployment/nginx-deployment
-kubectl describe pods
+kubectl delete -f Week4/kubernetes-project/dev-pod.yaml
+kubectl delete -f Week4/kubernetes-project/secret-pod.yaml
+kubectl delete -f Week4/kubernetes-project/configmap-pod.yaml
+kubectl delete -f Week4/kubernetes-project/service.yaml
+kubectl delete -f Week4/kubernetes-project/deployment.yaml
+kubectl delete -f Week4/kubernetes-project/app-secret.yaml
+kubectl delete -f Week4/kubernetes-project/app-config.yaml
+kubectl delete -f Week4/kubernetes-project/namespace.yaml
 ```
 
-## Key Learnings
+Deleting the Namespace also deletes namespaced resources inside it. If you want to stop the entire local cluster instead, run:
 
-- Kubernetes continuously works to maintain the desired state declared in resource manifests.
-- Deployments and ReplicaSets help maintain the required number of application replicas.
-- Services provide stable access to application Pods.
-- Health probes help Kubernetes assess application health and readiness.
-- ConfigMaps and Secrets separate configuration from application definitions.
-- Namespaces help organize and isolate Kubernetes resources.
-- Events and logs are essential for diagnosing application and cluster issues.
+```bash
+minikube stop
+```
 
-## Challenges Faced
+## Conclusion
 
-- Troubleshooting an invalid container image.
-- Resolving a missing Secret reference.
-- Understanding Pod replacement and self-healing.
-- Investigating Pod restarts and temporary cluster connectivity issues.
-- Verifying that workloads recovered successfully after troubleshooting.
-
-## Outcome
-
-By the end of Week 4 I had deployed and accessed an Nginx application on Kubernetes and practiced managing its lifecycle and configuration. I also gained hands-on experience with health checks, resource isolation and troubleshooting.
-
-This week strengthened my understanding of Kubernetes and provided a foundation for more advanced deployment workflows.
-
-## What's Next?
-
-The next step is to explore **Helm** for packaging Kubernetes applications and managing deployments through reusable charts.
-
-## Internship
-
-**Program:** DevOps Engineering Self-Learning Internship  
-**Organization:** InternCareerPath  
-**Week:** 4 — Kubernetes Deployment Project
-
----
-
-*Learn | Build | Troubleshoot | Improve*
+This project provided hands-on practice with core Kubernetes resources and application deployment. It strengthened my understanding of Deployments, Services, ConfigMaps, Secrets, Namespaces, health probes and troubleshooting in a local Kubernetes environment.
